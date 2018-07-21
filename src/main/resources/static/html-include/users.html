@@ -1,0 +1,52 @@
+<meta charset = "UTF-8">
+<div ng-controller = "UsersCtrl as users">
+	<h6>{{users.responseMsg}}</h6>
+	<button class = "w3-btn w3-green w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-disabled = "users.showEditForm" ng-click = "users.editUser('new')">&#9998; Nowy</button>
+	<form name = "userForm" ng-show = "users.showEditForm">
+		<h3 ng-show = "users.showEditForm && users.editNew">Nowy użytkownik</h3>
+		<h3 ng-show = "users.showEditForm && !users.editNew">Edycja użytkownika</h3>
+		<label>Nazwa:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "users.user.name" ng-change = "users.verifyUser()" placeholder = "Nazwa użytkownika" required>
+		<br>
+		<label>Hasło:</label>
+		<input class = "w3-input w3-border" type = "password" ng-model = "users.user.pass" ng-change = "users.verifyUser()" placeholder = "Hasło" required>
+		<br>
+		<label>Aktywny?:</label>
+		<input class = "w3-input w3-border" type = "checkbox" ng-model = "users.user.active">
+		<br>
+		<label>Uprawniony do edycji (edycja dokumentów, kontrahentów i parametrów, przekazywanie dokumentów do akceptacji)?:</label>
+		<input class = "w3-input w3-border" type = "checkbox" ng-model = "users.user.canEdit">
+		<br>
+		<label>Uprawniony do akceptowania (akceptacja, odrzucanie i zamykanie dokumentów)?:</label>
+		<input class = "w3-input w3-border" type = "checkbox" ng-model = "users.user.canAccept">
+		<br>
+		<label>Administrator (edycja użytkowników i uprawnień)?:</label>
+		<input class = "w3-input w3-border" type = "checkbox" ng-model = "users.user.isAdmin">
+		<br>
+		<button ng-show = "users.showEditForm && users.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "users.error" ng-click = "users.saveUser()">&#10004; Zapisz</button>
+		<button ng-show = "users.showEditForm" class = "w3-btn w3-green w3-ripple" ng-click = "users.cancelEditUser()">Anuluj</button>
+	</form>
+	<form name = "changePasswordForm" ng-show = "users.showChPasswordForm">
+		<label>Nowe hasło:</label>
+		<input class = "w3-input w3-border" type = "password" ng-model = "users.newPassword" placeholder = "nowe hasło" required>
+		<br>
+		<label>Potwórzenie hasła:</label>
+		<input class = "w3-input w3-border" type = "password" ng-model = "users.repeatPassword" placeholder = "powtórzenie hasła" required>
+		<br>
+		<button class = "w3-btn w3-green w3-ripple" ng-disabled = "users.newPassword == undefined || users.newPassword != users.repeatPassword" ng-click = "users.setNewPassword()">Zmień</button>
+		<button class = "w3-btn w3-green w3-ripple" ng-click = "users.cancelEditUser()">Anuluj</button>
+	</form>
+	<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+		<tr><th>Nazwa</th><th>Aktywny?</th><th>Może edytować?</th><th>Może akceptować?</th><th>Administrator?</th><th>Zmiana hasła</th><th>Edycja</th><th>Usunięcie</th></tr>
+		<tr ng-repeat = "u in users.userList">
+			<td>{{u.name}}</td>
+			<td>{{u.active}}</td>
+			<td>{{u.canEdit}}</td>
+			<td>{{u.canAccept}}</td>
+			<td>{{u.isAdmin}}</td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.name == u.name" ng-click = "users.changePassword(u.id)">&#9998; Zmień hasło</button></td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.editUser(u.id)">&#9998; Edytuj</button></td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.deleteUser(u.id)">Usuń</button></td>
+		</tr>
+	</table>
+</div>

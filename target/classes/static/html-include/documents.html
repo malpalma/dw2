@@ -1,0 +1,333 @@
+<meta charset = "UTF-8">
+
+<div ng-controller = "DocsCtrl as docs">
+
+<!-- ==================================================================== DOCUMENT ==================================================================== -->
+
+	<div ng-show = "docs.showDocuments">
+		<h6>{{docs.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showDocEditForm" ng-click = "docs.editDoc('new')">&#9998; Nowy</button>
+		<form name = "docForm" ng-show = "docs.showDocEditForm || docs.showDocDetails">
+			<h3 ng-show = "docs.showDocEditForm && docs.editNew">Nowy dokument:</h3>
+			<h3 ng-show = "docs.showDocEditForm && !docs.editNew">Edycja dokumentu:</h3>
+			<h3 ng-show = "docs.showDocDetails">Informacje szczegółowe dokumentu:</h3>
+			<label>Data wystawienia faktury:</label>
+			<input class = "w3-input w3-border" type = "date" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.invDt" ng-change = "docs.verifyDoc()" placeholder = "Data wystawienia faktury" required>
+			<br>
+			<label>Numer faktury:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.invNo" ng-change = "docs.verifyDoc()" placeholder = "Numer faktury" maxlength = "50" required>
+			<br>
+			<label>Data sprzedaży:</label>
+			<input class = "w3-input w3-border" type = "date" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.saleDt" ng-change = "docs.verifyDoc()" placeholder = "Data sprzedaży">
+			<br>
+			<label>Metoda płatności:</label>
+			<select ng-show = "docs.showDocEditForm" ng-model = "docs.selectedPM.id" ng-change = "docs.updatePM()">
+				<option ng-repeat = "pm in docs.pmList" ng-value = "{{pm.id}}">{{pm.description}}</option>
+			</select>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.paymentMethod" placeholder = "Metoda płatności">
+			<br>
+			<label>Termin płatności:</label>
+			<input class = "w3-input w3-border" type = "date" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.dueDt" placeholder = "Termin płatności">
+			<br>
+			<label>Dane sprzedawcy:</label>
+			<select ng-show = "docs.showDocEditForm" ng-model = "docs.selectedContr.id" ng-change = "docs.updateContr()">
+				<option ng-repeat = "contr in docs.contrList" ng-value = "{{contr.id}}">NIP: {{contr.regNumber}} | Nazwa: {{contr.name}} | Adres: {{contr.address}}</option>
+			</select>
+			<br>
+			<label>Nazwa:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.sellersName" ng-change = "docs.verifyDoc()" placeholder = "Nazwa sprzedawcy">
+			<br>
+<!-- 			<label>Adres:</label> -->
+<!-- 			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.sellersAddress" ng-change = "docs.verifyDoc()" placeholder = "Adres sprzedawcy"> -->
+<!-- 			<br> -->
+			<label>NIP:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.sellersRegNumber" ng-change = "docs.verifyDoc()" placeholder = "NIP sprzedawcy">
+			<br>
+			<label>Rachunek bankowy:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.bankAccNo" ng-change = "docs.verifyDoc()" placeholder = "Rachunek bankowy sprzedawcy">
+			<br>
+			<label>Dane kontaktowe:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showDocDetails" ng-model = "docs.doc.sellersContactDetails" ng-change = "docs.verifyDoc()" placeholder = "Dane kontaktowe sprzedawcy">
+			<br>
+			<label>Wartość brutto:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "true" ng-model = "docs.doc.gross" placeholder = "Wartość brutto faktury">
+			<br>
+			<label>Status obiegu:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.status" placeholder = "Status obiegu">
+			<br>
+			<label>Przekazano do:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.user" placeholder = "Przekazano do">
+			<br>
+			<button ng-show = "docs.showDocEditForm && docs.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "docs.error" ng-click = "docs.saveDoc()">&#10004; Zapisz</button>
+			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Anuluj</button>
+			<h3>Podsumowanie dokumentu:</h3>
+			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
+				<tr ng-repeat = "s in docs.sumList">
+					<td>{{s.taxDescr}}</td>
+					<td class = "w3-right-align">{{s.price | number : 2}}</td>
+					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
+					<td class = "w3-right-align">{{s.gross  | number : 2}}</td>
+				</tr>
+			</table>
+			<br>
+			<br>
+			<hr/><hr/>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<thead>
+				<tr>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('invNo')">Numer faktury</a>
+						<span ng-show = "docs.sorting.displaySortType('invNo') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('invNo') == 'down'">&#9660</span>
+						</th>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('invDt')">Data wystawienia</a>
+						<span ng-show = "docs.sorting.displaySortType('invDt') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('invDt') == 'down'">&#9660</span>
+					</th>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('sellersName')">Sprzedawca</a>
+						<span ng-show = "docs.sorting.displaySortType('sellersName') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('sellersName') == 'down'">&#9660</span>
+					</th>
+<!-- 					<th> -->
+<!-- 						<a href = "#" ng-click = "docs.sorting.changeSorting('sellersAddress')">Adres</a> -->
+<!-- 						<span ng-show = "docs.sorting.displaySortType('sellersAddress') == 'up'">&#9650</span> -->
+<!-- 						<span ng-show = "docs.sorting.displaySortType('sellersAddress') == 'down'">&#9660</span> -->
+<!-- 					</th> -->
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('sellersRegNumber')">NIP</a>
+						<span ng-show = "docs.sorting.displaySortType('sellersRegNumber') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('sellersRegNumber') == 'down'">&#9660</span>
+					</th>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('gross')">Wartość brutto</a>
+						<span ng-show = "docs.sorting.displaySortType('gross') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('gross') == 'down'">&#9660</span>
+					</th>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('status')">Status</a>
+						<span ng-show = "docs.sorting.displaySortType('status') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('status') == 'down'">&#9660</span>
+					</th>
+					<th>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('user')">Użytkownik</a>
+						<span ng-show = "docs.sorting.displaySortType('user') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('user') == 'down'">&#9660</span>
+					</th>
+					<th>Edycja</th><th>Szczegóły</th><th>Pozycje faktury</th><th>Załączniki</th><th>Usunięcie</th><th>Szczegóły obiegu</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>
+					<input type = "text" ng-model = "docs.docFilter.invNo">
+				</td>
+				<td></td>
+				<td>
+					<input type = "text" ng-model = "docs.docFilter.sellersName">
+				</td>
+<!-- 				<td> -->
+<!-- 					<input type = "text" ng-model = "docs.docFilter.sellersAddress"> -->
+<!-- 				</td> -->
+				<td>
+					<input type = "text" ng-model = "docs.docFilter.sellersRegNumber">
+				</td>
+				<td></td>
+				<td>
+					<input type = "text" ng-model = "docs.docFilter.status">
+				</td>
+				<td>
+					<input type = "text" ng-model = "docs.docFilter.user">
+				</td>
+			</tr>
+			<tr ng-repeat = "d in docs.docList | orderBy : docs.sorting.sortType : docs.sorting.sortReverse | filter : docs.docFilter">
+				<td>{{d.invNo}}</td>
+				<td>{{d.invDt | date : "y-MM-dd"}}</td>
+				<td>{{d.sellersName}}</td>
+<!-- 				<td>{{d.sellersAddress}}</td> -->
+				<td>{{d.sellersRegNumber}}</td>
+				<td class = "w3-right-align">{{d.gross | number : 2}}</td>
+				<td>{{d.status}}</td>
+				<td>{{d.user}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "d.status != 'nowy'" ng-click = "docs.editDoc(d.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.displayDocDetails(d.id)">Wyświetl</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.getItemsByDocId(d.id)">Pozycje faktury</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.getAttachmentsByDocId(d.id)">Załączniki</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "d.status != 'nowy'" ng-click = "docs.deleteDoc(d.id)">Usuń</button>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.getStagesByDocId(d.id)">Szczegóły obiegu</button>
+			</tr>
+		</table>
+	</div>
+	
+<!-- ==================================================================== DOCITEM ==================================================================== -->
+	<div ng-show = "docs.showDocItems">
+		<h3>Pozycje faktury:</h3>
+		<h6>{{docs.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showItemEditForm" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editItem('new')">&#9998; Nowy</button>
+		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
+		<form name = "itemForm" ng-show = "docs.showItemEditForm || docs.showItemDetails">
+			<h3 ng-show = "docs.showItemEditForm && docs.editNew">Nowa pozycja dokumentu:</h3>
+			<h3 ng-show = "docs.showItemEditForm && !docs.editNew">Edycja pozycji dokumentu:</h3>
+			<h3 ng-show = "docs.showItemDetails">Informacje szczegółowe pozycji dokumentu:</h3>
+			<label>Nazwa towaru/usługi:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showItemDetails" ng-model = "docs.item.description" ng-change = "docs.verifyItem()" placeholder = "Nazwa towaru/usługi" required>
+			<br>
+			<label>Ilość:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "docs.showItemDetails" ng-model = "docs.item.quantity" ng-change = "docs.verifyItem()" required>
+			<br>
+			<label>Jednostka miary:</label>
+			<select ng-show = "docs.showItemEditForm" ng-model = "docs.selectedUT.id" ng-change = "docs.updateUT()">
+				<option ng-repeat = "ut in docs.utList" ng-value = "{{ut.id}}">{{ut.description}}</option>
+			</select>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.item.unitType" placeholder = "Jednostka miary" required>
+			<br>
+			<label>Cena jednostkowa netto:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "docs.showItemDetails" ng-model = "docs.item.pricePerUnit" ng-change = "docs.verifyItem()" placeholder = "Cena jednostkowa netto">
+			<br>
+			<label>Rabat/upust:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "docs.showItemDetails" ng-model = "docs.item.discount" ng-change = "docs.verifyItem()" placeholder = "Rabat/upust">
+			<br>
+			<label>Wartość netto:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "docs.showItemDetails" ng-model = "docs.item.price" ng-change = "docs.verifyItem()" placeholder = "Wartość netto">
+			<br>
+			<label>Stawka podatku:</label>
+			<select ng-show = "docs.showItemEditForm" ng-model = "docs.selectedTR.id" ng-change = "docs.updateTR()">
+				<option ng-repeat = "tr in docs.trList" ng-value = "{{tr.id}}">{{tr.description}}</option>
+			</select>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.item.taxDescr" placeholder = "stawka podatku">
+			<br>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-disabled = "true" ng-model = "docs.item.taxRate" ng-change = "docs.verifyItem()" placeholder = "Stawka podatku">
+			<br>
+			<button ng-show = "docs.showItemEditForm && docs.authService.session.canEdit == 'true'"; class = "w3-btn w3-green w3-ripple" ng-disabled = "docs.error" ng-click = "docs.saveItem()">&#10004; Zapisz</button>
+			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToItems()">Anuluj</button>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<tr><th>Materiał/usługa</th><th>Ilość</th><th>Jednostka</th><th>Cena jednostkowa netto</th><th>Upust</th><th>Wartość netto</th><th>Stawka podatku</th><th>Edycja</th><th>Szczegóły</th><th>Usunięcie</th></tr>
+			<tr ng-repeat = "i in docs.itemList">
+				<td>{{i.description}}</td>
+				<td class = "w3-right-align">{{i.quantity | number : 6}}</td>
+				<td>{{i.unitType}}</td>
+				<td class = "w3-right-align">{{i.pricePerUnit | number : 2}}</td>
+				<td class = "w3-right-align">{{i.discount | number : 2}}</td>
+				<td class = "w3-right-align">{{i.price | number : 2}}</td>
+				<td>{{i.taxDescr}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editItem(i.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.displayItemDetails(i.id)">Wyświetl</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.deleteItem(i.id)">Usuń</button></td>
+			</tr>
+		</table>
+			<br>
+			<br>
+			<h3>Podsumowanie dokumentu:</h3>
+			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
+				<tr ng-repeat = "s in docs.sumList">
+					<td>{{s.taxDescr}}</td>
+					<td class = "w3-right-align">{{s.price | number : 2}}</td>
+					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
+					<td class = "w3-right-align">{{s.gross | number : 2}}</td>
+				</tr>
+			</table>
+	</div>
+
+<!-- ==================================================================== ATTACHMENT ==================================================================== -->
+	<div ng-show = "docs.showDocAttachments">
+		<h3>Załączniki do faktury:</h3>
+		<h6>{{docs.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showAttachEditForm" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editAttach('new')">&#9998; Nowy</button>
+		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
+		<form name = "attachForm" ng-show = "docs.showAttachEditForm || docs.showAttachDetails">
+			<h3 ng-show = "docs.showAttachEditForm && docs.editNew">Nowy załącznik dokumentu:</h3>
+			<h3 ng-show = "docs.showAttachEditForm && !docs.editNew">Edycja załącznika dokumentu:</h3>
+			<h3 ng-show = "docs.showAttachDetails">Informacje szczegółowe załącznika dokumentu:</h3>
+			<div ng-show = "docs.showAttachEditForm">
+				<label>Plik załącznika:</label>
+				<input class = "w3-input w3-border" type = "file" ng-file-select = "onFileSelect($files)">
+				<br>
+			</div>
+			<div ng-show = "docs.showAttachDetails">
+<!-- 				X-Frame-Options of ResponseHeaders ... -->
+				<iframe ng-src = "{{docs.getIFrameSrc() | trusted}}" width = "1200" height = "600"></iframe>
+			</div>
+			<label>Nazwa pliku:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.attach.fileName" placeholder = "Nazwa pliku załącznika">
+			<br>
+			<label>Typ pliku:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.attach.fileType" placeholder = "Typ pliku załącznika">
+			<br>
+			<label>Opis załącznika:</label>
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "docs.showAttachDetails" ng-model = "docs.attach.description" ng-change = "docs.verifyAttach()" placeholder = "Opis załącznika">
+			<br>
+			<button ng-show = "docs.showAttachEditForm && docs.authService.session.canEdit == 'true'"; class = "w3-btn w3-green w3-ripple" ng-disabled = "docs.error" ng-click = "docs.saveAttach()">&#10004; Zapisz</button>
+			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToAttachments()">Anuluj</button>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<tr><th>Nazwa pliku</th><th>Opis</th><th>Edycja</th><th>Szczegóły</th><th>Usunięcie</th></tr>
+			<tr ng-repeat = "a in docs.attachList">
+				<td>{{a.fileName}}</td>
+				<td>{{a.description}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editAttach(a.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-click = "docs.displayAttachDetails(a.id)">Wyświetl</button></td>
+<!-- 				<td><button class = "w3-btn w3-ripple" ng-click = "docs.downloadFile(a.id)">Pobierz</button></td> -->
+				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.deleteAttach(a.id)">Usuń</button></td>
+			</tr>
+		</table>
+			<br>
+			<br>
+			<h3>Podsumowanie dokumentu:</h3>
+			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
+				<tr ng-repeat = "s in docs.sumList">
+					<td>{{s.taxDescr}}</td>
+					<td class = "w3-right-align">{{s.price | number : 2}}</td>
+					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
+					<td class = "w3-right-align">{{s.gross | number : 2}}</td>
+				</tr>
+			</table>
+	</div>
+
+<!-- ==================================================================== SENDING DOC ==================================================================== -->
+
+	<div ng-show = "docs.showStages == true">
+		<h3>Szczegóły obiegu dokumentu:</h3>
+		<h6>{{docs.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
+		<form name = "stageForm" ng-show = "docs.showStageEditForm">
+			<div ng-show = "docs.action == 'send' || docs.action == 'reject'">
+				<label>Przekazać do:</label>
+				<select class = "w3-select" ng-model = "docs.nextStageUser">
+					<option ng-repeat = "u in docs.userList" value = "{{u.name}}">{{u.name}}</option>
+				</select>
+				<br>
+			</div>
+			<br>
+			<label>Uwagi:</label>
+			<input class = "w3-input w3-border" type = "text" ng-model = docs.stage.comments placeholder = "Uwagi">
+			<br>
+			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.saveStage()">Dalej</button>
+			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.cancelAction()">Anuluj</button>
+		</form>
+
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<tr><th>Data</th><th>Użytkownik</th><th>Status wejściowy dokumentu</th><th>Działanie</th><th>Uwagi</th></tr>
+			<tr ng-repeat = "s in docs.stageList">
+				<td>{{s.date | date : "y-MM-dd"}}</td>
+				<td>{{s.user}}</td>
+				<td>{{s.status}}</td>
+				<td>{{s.action}}</td>
+				<td>{{s.comments}}</td>
+			</tr>
+		</table>
+		<hr/><hr/>
+		<div ng-show = "docs.displayWFButtons() == true">
+			<button ng-show = "docs.doc.status == 'nowy'" class = "w3-btn w3-green w3-ripple" ng-click = "docs.initAction('send')">Przekazanie do akceptacji</button>
+			<button ng-show = "docs.displayButtonsForUserWithAcceptPerm() && docs.doc.status != 'nowy'" class = "w3-btn w3-green w3-ripple" ng-click = "docs.initAction('send')">Zatwierdzenie i przekazanie do następnej osoby</button>
+			<button ng-show = "docs.displayButtonsForUserWithAcceptPerm()" class = "w3-btn w3-green w3-ripple" ng-click = "docs.initAction('accept')">Zatwierdzenie ostateczne</button>
+			<button ng-show = "docs.displayButtonsForUserWithAcceptPerm() && docs.doc.status != 'nowy'" class = "w3-btn w3-green w3-ripple" ng-click = "docs.initAction('reject')">Odrzucenie</button>
+			<button ng-show = "docs.displayButtonsForUserWithAcceptPerm()" class = "w3-btn w3-green w3-ripple" ng-click = "docs.initAction('close')">Zamknięcie bez akceptacji</button>
+		</div>
+	</div>
+
+</div>

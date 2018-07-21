@@ -1,0 +1,72 @@
+<meta charset = "UTF-8">
+<div ng-controller = "ContrsCtrl as contrs">
+	<h6>{{contrs.responseMsg}}</h6>
+	<button class = "w3-btn w3-green w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-disabled = "contrs.showContrEditForm" ng-click = "contrs.editContr('new')">&#9998; Nowy</button>
+	<form name = "ContrForm" ng-show = "contrs.showContrEditForm">
+		<h3 ng-show = "contrs.showContrEditForm && contrs.editNew">Nowy kontrahent</h3>
+		<h3 ng-show = "contrs.showContrEditForm && !contrs.editNew">Edycja kontrahenta</h3>
+		<label>Nazwa:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "contrs.contr.name" ng-change = "contrs.verifyContr()" placeholder = "Nazwa" required>
+		<br>
+		<label>Adres:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "contrs.contr.address" ng-change = "contrs.verifyContr()" placeholder = "Adres" required>
+		<br>
+		<label>NIP:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "contrs.contr.regNumber" ng-change = "contrs.verifyContr()" placeholder = "NIP">
+		<br>
+		<label>Dane kontaktowe:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "contrs.contr.contactDetails" ng-change = "contrs.verifyContr()" placeholder = "Dane kontaktowe">
+		<br>
+		<button ng-show = "contrs.showContrEditForm && contrs.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "contrs.error" ng-click = "contrs.saveContr()">&#10004; Zapisz</button>
+		<button ng-show = "contrs.showContrEditForm" class = "w3-btn w3-green w3-ripple" ng-click = "contrs.cancelEditContr()">Anuluj</button>
+	</form>
+	<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+		<thead>
+			<tr>
+			<th>
+				<a href = "#" ng-click = "contrs.sorting.changeSorting('name')">Nazwa</a>
+				<span ng-show = "contrs.sorting.displaySortType('name') == 'up'">&#9650</span>
+				<span ng-show = "contrs.sorting.displaySortType('name') == 'down'">&#9660</span>
+			</th>
+			<th>
+				<a href = "#" ng-click = "contrs.sorting.changeSorting('address')">Adres</a>
+				<span ng-show = "contrs.sorting.displaySortType('address') == 'up'">&#9650</span>
+				<span ng-show = "contrs.sorting.displaySortType('address') == 'down'">&#9660</span>
+			</th>
+			<th>
+				<a href = "#" ng-click = "contrs.sorting.changeSorting('regNumber')">NIP</a>
+				<span ng-show = "contrs.sorting.displaySortType('regNumber') == 'up'">&#9650</span>
+				<span ng-show = "contrs.sorting.displaySortType('regNumber') == 'down'">&#9660</span>
+			</th>
+			<th>
+				<a href = "#" ng-click = "contrs.sorting.changeSorting('contactDetails')">Dane kontaktowe</a>
+				<span ng-show = "contrs.sorting.displaySortType('contactDetails') == 'up'">&#9650</span>
+				<span ng-show = "contrs.sorting.displaySortType('contactDetails') == 'down'">&#9660</span>
+			</th>
+			<th>Edycja</th><th>Usunięcie</th>
+			</tr>
+		</thead>
+		<tr>
+			<td>
+				<input type = "text" ng-model = "contrs.contrFilter.name">
+			</td>
+			<td>
+				<input type = "text" ng-model = "contrs.contrFilter.address">
+			</td>
+			<td>
+				<input type = "text" ng-model = "contrs.contrFilter.regNumber">
+			</td>
+			<td>
+				<input type = "text" ng-model = "contrs.contrFilter.contactDetails">
+			</td>
+		</tr>
+		<tr ng-repeat = "c in contrs.contrList | orderBy : contrs.sorting.sortType : contrs.sorting.sortReverse | filter : contrs.contrFilter">
+			<td>{{c.name}}</td>
+			<td>{{c.address}}</td>
+			<td>{{c.regNumber}}</td>
+			<td>{{c.contactDetails}}</td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-click = "contrs.editContr(c.id)">&#9998; Edytuj</button></td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-click = "contrs.deleteContr(c.id)">Usuń</button></td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<link rel = "stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<head>
+<meta charset = "UTF-8">
+<title>Obieg dokumentów</title>
+</head>
+<body ng-app = "authModule" ng-strict-di>
+<div style = "background-color: LightCyan">
+	<h2>
+		<span>Obieg dokumentów</span>
+	</h2>
+
+<div ng-controller = "authCtrl as auth">
+	<h6>{{auth.authService.responseMsg}}</h6>
+	<form name = "authForm" ng-submit = "auth.authService.authenticate()">
+		<label>Nazwa użytkownika:</label>
+		<input class = "w3-input w3-border" type = "text" ng-model = "auth.authService.credentials.username" ng-change = "auth.verify()" placeholder = "Nazwa użytkownika" required>
+		<br>
+		<label>Hasło:</label>
+		<input class = "w3-input w3-border" type = "password" ng-model = "auth.authService.credentials.password" ng-change = "auth.verify()" placeholder = "Hasło" required>
+		<br>
+		<button class = "w3-btn w3-green w3-ripple" ng-disabled = "auth.error">Zaloguj</button>
+	</form>
+</div>
+</div>
+
+</body>
+
+<script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.js"></script>  
+<script type = "text/javascript" src = "js/auth.js"></script>
+
+<style>
+body {
+	background-color: MintCream;
+}
+span:hover {
+	background-color: LightBlue;
+}
+div, span {
+	padding: 10px;
+}
+</style>
+
+</html>

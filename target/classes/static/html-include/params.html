@@ -1,0 +1,87 @@
+<meta charset = "UTF-8">
+<h3>
+	<select ng-model = "menu">
+		<option value = "menuTaxes">Stawki podatku</option>
+		<option value = "menuPaymentMethods">Metody płatności</option>
+		<option value = "menuUnitTypes">Jednostki miary</option>
+	</select>
+</h3>
+<div ng-switch = "menu">
+	<div ng-switch-when = "menuTaxes" ng-controller = "TRCtrl as trs">
+		<h6>{{trs.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-disabled = "trs.showEditForm" ng-click = "trs.editTaxRate('new')">&#9998; Nowy</button>
+		<form ng-show = "trs.showEditForm">
+			<h3 ng-show = "trs.showEditForm && trs.editNew">Nowa stawka podatku</h3>
+			<h3 ng-show = "trs.showEditForm && !trs.editNew">Edycja stawki podatku</h3>
+			<label>Opis stawki podatku:</label>
+			<input class = "w3-input w3-border" type = "text" ng-model = "trs.param.description" ng-change = "trs.verifyTaxRate()" placeholder = "Opis stawki podatku" required>
+			<br>
+			<label>Wartość stawki podatku:</label>
+			<input class = "w3-input w3-border" type = "number" step = "any" ng-model = "trs.param.value" ng-change = "trs.verifyTaxRate()" placeholder = "Wartość stawki podatku" required>
+			<br>
+			<button ng-show = "trs.showEditForm && trs.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "trs.error" ng-click = "trs.saveTaxRate()">&#10004; Zapisz</button>
+			<button ng-show = "trs.showEditForm" class = "w3-btn w3-green w3-ripple" ng-click = "trs.cancelEditTaxRate()">Anuluj</button>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped  w3-small w3-responsive">
+			<tr><th>Opis</th><th>Wartość</th><th>Edycja</th><th>Usunięcie</th></tr>
+			<tr ng-repeat = "tr in trs.trList">
+				<td>{{tr.description}}</td>
+				<td class = "w3-right-align">{{tr.value | number : 2}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-click = "trs.editTaxRate(tr.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-click = "trs.deleteTaxRate(tr.id)">Usuń</button></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div ng-switch-when = "menuPaymentMethods" ng-controller = "PMCtrl as pms">
+		<h6>{{pms.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-disabled = "pms.showEditForm" ng-click = "pms.editPaymentMethod('new')">&#9998; Nowy</button>
+		<form ng-show = "pms.showEditForm">
+			<h3 ng-show = "pms.showEditForm && pms.editNew">Nowa metoda płatności</h3>
+			<h3 ng-show = "pms.showEditForm && !pms.editNew">Edycja metody płatności</h3>
+			<label>Opis metody płatności:</label>
+			<input class = "w3-input w3-border" type = "text" ng-model = "pms.param.description" ng-change = "pms.verifyPaymentMethod()" placeholder = "Opis metody płatności" required>
+			<br>
+			<label>Ilość dni zwłoki płatności:</label>
+			<input class = "w3-input w3-border" type = "number" step = "1" ng-model = "pms.param.value" ng-change = "pms.verifyPaymentMethod()" placeholder = "Ilość dni zwłoki płatności" required>
+			<br>
+			<button ng-show = "pms.showEditForm && pms.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "pms.error" ng-click = "pms.savePaymentMethod()">&#10004; Zapisz</button>
+			<button ng-show = "pms.showEditForm" class = "w3-btn w3-green w3-ripple" ng-click = "pms.cancelEditPaymentMethod()">Anuluj</button>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<tr><th>Opis</th><th>Ilość dni</th><th>Edycja</th><th>Usunięcie</th></tr>
+			<tr ng-repeat = "pm in pms.pmList">
+				<td>{{pm.description}}</td>
+				<td class = "w3-right-align">{{pm.value}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-click = "pms.editPaymentMethod(pm.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-click = "pms.deletePaymentMethod(pm.id)">Usuń</button></td>
+			</tr>
+		</table>
+	</div>
+
+	<div ng-switch-when = "menuUnitTypes" ng-controller = "UTCtrl as uts">
+		<h6>{{uts.responseMsg}}</h6>
+		<button class = "w3-btn w3-green w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-disabled = "uts.showEditForm" ng-click = "uts.editUnitType('new')">&#9998; Nowy</button>
+		<form ng-show = "uts.showEditForm">
+			<h3 ng-show = "uts.showEditForm && uts.editNew">Nowa jednostka miary</h3>
+			<h3 ng-show = "uts.showEditForm && !uts.editNew">Edycja jednostki miary</h3>
+			<label>Kod jednostki miary:</label>
+			<input class = "w3-input w3-border" type = "text" ng-model = "uts.param.code" ng-change = "uts.verifyUnitType()" placeholder = "Kod jednostki miary" required>
+			<br>
+			<label>Opis jednostki miary:</label>
+			<input class = "w3-input w3-border" type = "text" ng-model = "uts.param.description" ng-change = "uts.verifyUnitType()" placeholder = "Opis jednostki miary" required>
+			<br>
+			<button ng-show = "uts.showEditForm && uts.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "uts.error" ng-click = "uts.saveUnitType()">&#10004; Zapisz</button>
+			<button ng-show = "uts.showEditForm" class = "w3-btn w3-green w3-ripple" ng-click = "uts.cancelEditUnitType()">Anuluj</button>
+		</form>
+		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
+			<tr><th>Kod</th><th>Opis</th><th>Edycja</th><th>Usunięcie</th></tr>
+			<tr ng-repeat = "ut in uts.utList">
+				<td>{{ut.code}}</td>
+				<td>{{ut.description}}</td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-click = "uts.editUnitType(ut.id)">&#9998; Edytuj</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-click = "uts.deleteUnitType(ut.id)">Usuń</button></td>
+			</tr>
+		</table>
+	</div>
+</div>

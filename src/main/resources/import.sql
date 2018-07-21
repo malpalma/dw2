@@ -1,0 +1,13 @@
+insert into DW_DOC (id, inv_no, inv_dt, sale_dt, sellers_name, sellers_address, status) values(1, "111/2018", "2018-04-18", "2018-04-18", "ABC", "Warszawa", "nowy");
+insert into DW_DOC (id, inv_no, inv_dt, sale_dt, sellers_name, sellers_address, status) values(2, "222/4/18", "2018-04-19", "2018-04-20", "DEF S.A.", "Warszawa", "nowy");
+insert into DW_DOC (id, inv_no, inv_dt, sale_dt, sellers_name, sellers_address, status) values(3, "333/04/2018", "2018-04-20", "2018-04-20", "ABB Sp. z o.o.", "Kraków", "nowy");
+insert into DW_PARAM (id, type, description, value) values(4, "tr", "23%", 0.23);
+insert into DW_PARAM (id, type, description, value) values(5, "tr", "0%", 0);
+insert into DW_PARAM (id, type, description, value) values(6, "pm", "przelew 7 dni", 7);
+insert into DW_PARAM (id, type, description, value) values(7, "pm", "przelew 14 dni", 14);
+insert into DW_PARAM (id, type, description, value) values(8, "pm", "gotówka", 0);
+insert into DW_PARAM (id, type, code, description) values(9, "ut", "szt", "sztuka");
+insert into DW_PARAM (id, type, code, description) values(10, "ut", "h", "godzina");
+insert into DW_PARAM (id, type, code, description) values(11, "ut", "kg", "kilogram");
+insert into DW_PARAM (id, type, description, value) values(12, "tr", "8%", 0.08);
+update hibernate_sequence set next_val = 13;
