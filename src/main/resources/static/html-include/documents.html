@@ -56,7 +56,7 @@
 			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.status" placeholder = "Status obiegu">
 			<br>
 			<label>Przekazano do:</label>
-			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.user" placeholder = "Przekazano do">
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.usern" placeholder = "Przekazano do">
 			<br>
 			<button ng-show = "docs.showDocEditForm && docs.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "docs.error" ng-click = "docs.saveDoc()">&#10004; Zapisz</button>
 			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Anuluj</button>
@@ -113,9 +113,9 @@
 						<span ng-show = "docs.sorting.displaySortType('status') == 'down'">&#9660</span>
 					</th>
 					<th>
-						<a href = "#" ng-click = "docs.sorting.changeSorting('user')">Użytkownik</a>
-						<span ng-show = "docs.sorting.displaySortType('user') == 'up'">&#9650</span>
-						<span ng-show = "docs.sorting.displaySortType('user') == 'down'">&#9660</span>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('usern')">Użytkownik</a>
+						<span ng-show = "docs.sorting.displaySortType('usern') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('usern') == 'down'">&#9660</span>
 					</th>
 					<th>Edycja</th><th>Szczegóły</th><th>Pozycje faktury</th><th>Załączniki</th><th>Usunięcie</th><th>Szczegóły obiegu</th>
 				</tr>
@@ -139,7 +139,7 @@
 					<input type = "text" ng-model = "docs.docFilter.status">
 				</td>
 				<td>
-					<input type = "text" ng-model = "docs.docFilter.user">
+					<input type = "text" ng-model = "docs.docFilter.usern">
 				</td>
 			</tr>
 			<tr ng-repeat = "d in docs.docList | orderBy : docs.sorting.sortType : docs.sorting.sortReverse | filter : docs.docFilter">
@@ -150,7 +150,7 @@
 				<td>{{d.sellersRegNumber}}</td>
 				<td class = "w3-right-align">{{d.gross | number : 2}}</td>
 				<td>{{d.status}}</td>
-				<td>{{d.user}}</td>
+				<td>{{d.usern}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "d.status != 'nowy'" ng-click = "docs.editDoc(d.id)">&#9998; Edytuj</button></td>
 				<td><button class = "w3-btn w3-ripple" ng-click = "docs.displayDocDetails(d.id)">Wyświetl</button></td>
 				<td><button class = "w3-btn w3-ripple" ng-click = "docs.getItemsByDocId(d.id)">Pozycje faktury</button></td>
@@ -314,7 +314,7 @@
 			<tr><th>Data</th><th>Użytkownik</th><th>Status wejściowy dokumentu</th><th>Działanie</th><th>Uwagi</th></tr>
 			<tr ng-repeat = "s in docs.stageList">
 				<td>{{s.date | date : "y-MM-dd"}}</td>
-				<td>{{s.user}}</td>
+				<td>{{s.usern}}</td>
 				<td>{{s.status}}</td>
 				<td>{{s.action}}</td>
 				<td>{{s.comments}}</td>

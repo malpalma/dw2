@@ -26,8 +26,9 @@ public class DocStage {
 	@JoinColumn(referencedColumnName = "id", nullable = false)
 	private Document document;
 	
+	// "user" is restricted in postgresql
 	@Column(nullable = false, length = 50)
-	private String user;
+	private String usern;
 	
 	@Column(nullable = false, length = 50)
 	private String status;
@@ -60,12 +61,12 @@ public class DocStage {
 		this.document = document;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsern() {
+		return usern;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsern(String usern) {
+		this.usern = usern;
 	}
 
 	public String getStatus() {

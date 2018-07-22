@@ -35,7 +35,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		sellersContactDetails: undefined,
 		gross: 0.00,
 		status: undefined,
-		user: undefined
+		usern: undefined
 	};
 	
 	lS.selectedPM = {
@@ -93,7 +93,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 	}
 	
 	lS.stage = {
-		user: undefined,
+		usern: undefined,
 		status: undefined,
 		action: undefined,
 		date: undefined,
@@ -279,7 +279,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		lS.doc.sellersContactDetails = undefined;
 		lS.doc.gross = 0.00;
 		lS.doc.status = undefined,
-		lS.doc.user = undefined,
+		lS.doc.usern = undefined,
 		lS.resetSelectedPM();
 		lS.resetSelectedContr();
 	};
@@ -645,11 +645,11 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		lS.stageList = undefined;
 		lS.doc.id = docId;
 		lS.doc.status = undefined;
-		lS.doc.user = undefined;
+		lS.doc.usern = undefined;
 		reqGen.getDocStatusById(lS.doc.id).then(function(response) {
 			lS.doc.status = response.data;
 			reqGen.getDocUserById(lS.doc.id).then(function(response) {
-				lS.doc.user = response.data;
+				lS.doc.usern = response.data;
 				reqGen.getStagesByDocId(docId).then(function(response) {
 					lS.stageList = response.data;
 				}).
@@ -682,7 +682,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 	
 	lS.saveStage = function() {
 		lS.responseMsg = "";
-		lS.stage.user = lS.authService.session.name;
+		lS.stage.usern = lS.authService.session.name;
 		lS.stage.status = lS.doc.status;
 		if(lS.action == "send") {
 			lS.stage.action = "przekazanie"
@@ -707,7 +707,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 	};
 	
 	lS.resetStageFormFields = function() {
-		lS.stage.user = undefined,
+		lS.stage.usern = undefined,
 		lS.stage.status = undefined,
 		lS.stage.action = undefined,
 		lS.stage.date = undefined,
@@ -721,7 +721,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 	}
 	
 	lS.displayButtonsForUserWithAcceptPerm = function() {
-		return ((lS.authService.session.name == "super" || lS.doc.status == "nowy" || lS.authService.session.name == lS.doc.user) && lS.authService.session.canAccept == "true");
+		return ((lS.authService.session.name == "super" || lS.doc.status == "nowy" || lS.authService.session.name == lS.doc.usern) && lS.authService.session.canAccept == "true");
 	}
 	
 	//==================================================================== COMMON ====================================================================

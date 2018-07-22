@@ -74,8 +74,9 @@ public class Document {
 	@Column(nullable = false, length = 50)
 	private String status;
 	
+	// "user" is restricted in postgresql
 	@Column(length = 50)
-	private String user;
+	private String usern;
 	
 	@OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
@@ -213,12 +214,12 @@ public class Document {
 		this.status = status;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsern() {
+		return usern;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsern(String usern) {
+		this.usern = usern;
 	}
 
 	public List<Attachment> getAttachments() {

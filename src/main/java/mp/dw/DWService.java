@@ -105,19 +105,19 @@ public class DWService {
 		Document doc = this.getDocumentById(docId);
 		if(doc != null) {
 			//stage.status must be == doc.status and stage.user must be == doc.user, unless doc.status == "nowy" (starting document workflow)
-			if((stage.getStatus().equals(doc.getStatus())) && (doc.getStatus().equals("nowy") || stage.getUser().equals(doc.getUser()))) {
+			if((stage.getStatus().equals(doc.getStatus())) && (doc.getStatus().equals("nowy") || stage.getUsern().equals(doc.getUsern()))) {
 				if(stage.getAction().equals("przekazanie")) {
 					doc.setStatus("w akceptacji");
-					doc.setUser(nextStageUser);
+					doc.setUsern(nextStageUser);
 				} else if(stage.getAction().equals("akceptacja")) {
 					doc.setStatus("zaakceptowany");
-					doc.setUser("");
+					doc.setUsern("");
 				} else if(stage.getAction().equals("odrzucenie")) {
 					doc.setStatus("odrzucony");
-					doc.setUser(nextStageUser);
+					doc.setUsern(nextStageUser);
 				} else {
 					doc.setStatus("zamknięty");
-					doc.setUser("");
+					doc.setUsern("");
 				}
 				doc.addStage(stage);
 				docDao.update(doc);
