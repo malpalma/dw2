@@ -12,7 +12,6 @@
 	</h2>
 
 <div ng-controller = "authCtrl as auth">
-	<h6>{{auth.authService.responseMsg}}</h6>
 	<form name = "authForm" ng-submit = "auth.authService.authenticate()">
 		<label>Nazwa użytkownika:</label>
 		<input class = "w3-input w3-border" type = "text" ng-model = "auth.authService.credentials.username" ng-change = "auth.verify()" placeholder = "Nazwa użytkownika" required>

@@ -70,7 +70,9 @@ authModule.controller("authCtrl", ["$window", "$http", "authService", function($
 	
 	lS.authService = authService;
 	
-	lS.error = true;
+	lS.authService.credentials.username = "super";
+	lS.authService.credentials.password = "superPwd";
+	lS.error = false;
 
 	lS.verify = function() {
 		if(lS.authService.credentials.username != undefined && lS.authService.credentials.password != undefined) {
