@@ -677,8 +677,12 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		lS.doc.usern = undefined;
 		reqGen.getDocStatusById(lS.doc.id).then(function(response) {
 			lS.doc.status = response.data;
+//			console.log("getStagesByDocId, doc.status:");
+//			console.log(lS.doc.status);
 			reqGen.getDocUserById(lS.doc.id).then(function(response) {
 				lS.doc.usern = response.data;
+//				console.log("getStagesByDocId, doc.usern:");
+//				console.log(lS.doc.usern);
 				reqGen.getStagesByDocId(docId).then(function(response) {
 					lS.stageList = response.data;
 				}).

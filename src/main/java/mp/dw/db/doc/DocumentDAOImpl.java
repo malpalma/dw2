@@ -23,7 +23,7 @@ public class DocumentDAOImpl extends BaseDAOImpl<Document, Long> implements Docu
 	}
 	
 	public String getUserById(Long id) {
-		Query query = em.createQuery("select user from Document d where id = :id");
+		Query query = em.createQuery("select usern from Document d where id = :id");
 		query.setParameter("id", id);
 		List res = query.getResultList();
 		if(res.get(0) == null) {
