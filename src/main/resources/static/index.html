@@ -16,8 +16,8 @@
 			<option value = "params">Parametry</option>
 		</select>
 		<span>Obieg dokumentów</span>
-		<button class = "w3-btn w3-ripple w3-right" ng-disabled = "!main.authService.authenticated" ng-click = "main.authService.logout()">Wyloguj</button>
-		<button class = "w3-btn w3-ripple w3-right" ng-disabled = "main.authService.authenticated" ng-click = "main.login()">Zaloguj</button>
+		<button class = "w3-btn w3-ripple w3-right" ng-if = "main.authService.authenticated" ng-click = "main.authService.logout()">Wyloguj</button>
+		<button class = "w3-btn w3-ripple w3-right" ng-if = "!main.authService.authenticated" ng-click = "main.login()">Zaloguj</button>
 		<span class = "w3-right" ng-show = "main.authService.authenticated">Zalogowany</span>
 		<span class = "w3-right" ng-show = "!main.authService.authenticated">Niezalogowany</span>
 	</h2>
