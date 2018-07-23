@@ -65,7 +65,7 @@ public class DWRestController {
 	
 //	============================== DOCUMENT ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getDocuments")
 	public List<Document> getDocuments(HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -83,7 +83,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getDocument/{id}")
 	public Document getDocumentById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -101,7 +101,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getDocStatus/{id}")
 	public char[] getDocStatusById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -119,7 +119,7 @@ public class DWRestController {
 		}
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getDocUser/{id}")
 	public char[] getDocUserById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -171,7 +171,7 @@ public class DWRestController {
 
 //	============================== DOCSTAGE ==============================
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getStages/{docId}")
 	public List<DocStage> getStagesByDocId(@PathVariable Long docId, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -226,7 +226,7 @@ public class DWRestController {
 
 //	============================== DOCITEM ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getItems/{docId}")
 	public List<DocItem> getItemsByDocId(@PathVariable Long docId, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -244,7 +244,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getItem/{id}")
 	public DocItem getItemById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -296,7 +296,7 @@ public class DWRestController {
 	
 //	============================== SUM ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getSums/{docId}")
 	public List<DocSum> getSumsByDocId(@PathVariable Long docId, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -316,7 +316,7 @@ public class DWRestController {
 
 //	============================== PARAM ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getParams/{type}")
 	public List<Param> getParamsByType(@PathVariable String type, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -335,7 +335,7 @@ public class DWRestController {
 		}
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getParam/{id}")
 	public Param getParamById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -385,7 +385,7 @@ public class DWRestController {
 		}
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getParamByDescr/{type}")
 	public Param getParamByTypeAndDescr(@PathVariable String type, @RequestParam(name = "descr") String descr, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -406,7 +406,7 @@ public class DWRestController {
 	
 //	============================== USER ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getUsers")
 	public List<UserE> getUsers(HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -424,7 +424,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getUsers/{perm}")
 	public List<UserE> getUsersWithPerm(@PathVariable String perm, @RequestParam(name = "without") String without, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -442,7 +442,7 @@ public class DWRestController {
 		}
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getUser/{id}")
 	public UserE getUserById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -477,7 +477,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@PostMapping(value = "/setNewPassword/{id}")
 	public void saveUser(@RequestBody String pass, @PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -511,7 +511,7 @@ public class DWRestController {
 	
 //	============================== CONTRACTOR ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getContractors")
 	public List<Contractor> getContractors(HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -529,7 +529,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getContractor/{id}")
 	public Contractor getContractorById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -581,7 +581,7 @@ public class DWRestController {
 
 //	============================== ATTACHMENT ==============================
 
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getAttachments/{docId}")
 	public List<Attachment> getAttachmentsByDocId(@PathVariable Long docId, HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -600,7 +600,7 @@ public class DWRestController {
 		}
 	}
 	
-	@PreAuthorize("hasAuthority('USER')")
+//	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping(value = "/getAttach/{id}")
 	public Attachment getAttachmentById(@PathVariable Long id, HttpServletRequest req, HttpServletResponse resp) {
 		try {

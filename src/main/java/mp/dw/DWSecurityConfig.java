@@ -50,7 +50,8 @@ public class DWSecurityConfig extends WebSecurityConfigurerAdapter {
 //	enable X-Frame-Options sameorigin
 			.and().headers().frameOptions().sameOrigin()
 			.and().authorizeRequests()
-				.antMatchers("/get*", "/save*", "/delete*").authenticated()
+//				.antMatchers("/get*", "/save*", "/delete*").authenticated()
+				.antMatchers("/save*", "/delete*").authenticated()
 			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and().logout().clearAuthentication(true).invalidateHttpSession(true);
 	}

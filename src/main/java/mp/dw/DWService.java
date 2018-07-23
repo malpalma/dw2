@@ -329,11 +329,13 @@ public class DWService {
 
 //	============================== ATTACHMENT ==============================
 
+	@Transactional
 	public List<Attachment> getAttachmentsByDocId(Long docId) {
 		Document doc = docDao.getById(docId);
 		return (List<Attachment>) attachDao.getByDoc(doc);
 	}
 
+	@Transactional
 	public Attachment getAttachmentById(Long id) {
 		return attachDao.getById(id);
 	}

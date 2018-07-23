@@ -40,10 +40,10 @@
 		<tr><th>Nazwa</th><th>Aktywny?</th><th>Może edytować?</th><th>Może akceptować?</th><th>Administrator?</th><th>Zmiana hasła</th><th>Edycja</th><th>Usunięcie</th></tr>
 		<tr ng-repeat = "u in users.userList">
 			<td>{{u.name}}</td>
-			<td>{{u.active}}</td>
-			<td>{{u.canEdit}}</td>
-			<td>{{u.canAccept}}</td>
-			<td>{{u.isAdmin}}</td>
+			<td class = "w3-center"><span ng-show = "u.active">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.canEdit">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.Accept">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.isAdmin">&#10004</span></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.name == u.name" ng-click = "users.changePassword(u.id)">&#9998; Zmień hasło</button></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.editUser(u.id)">&#9998; Edytuj</button></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.deleteUser(u.id)">Usuń</button></td>
