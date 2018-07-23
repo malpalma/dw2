@@ -5,7 +5,6 @@
 <!-- ==================================================================== DOCUMENT ==================================================================== -->
 
 	<div ng-show = "docs.showDocuments">
-		<h6>{{docs.responseMsg}}</h6>
 		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showDocEditForm" ng-click = "docs.editDoc('new')">&#9998; Nowy</button>
 		<form name = "docForm" ng-show = "docs.showDocEditForm || docs.showDocDetails">
 			<h3 ng-show = "docs.showDocEditForm && docs.editNew">Nowy dokument:</h3>
@@ -22,7 +21,7 @@
 			<br>
 			<label>Metoda płatności:</label>
 			<select ng-show = "docs.showDocEditForm" ng-model = "docs.selectedPM.id" ng-change = "docs.updatePM()">
-				<option ng-repeat = "pm in docs.pmList" ng-value = "{{pm.id}}">{{pm.description}}</option>
+				<option ng-repeat = "pm in docs.pmList | orderBy : 'description' : false" ng-value = "{{pm.id}}">{{pm.description}}</option>
 			</select>
 			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.paymentMethod" placeholder = "Metoda płatności">
 			<br>
@@ -31,7 +30,7 @@
 			<br>
 			<label>Dane sprzedawcy:</label>
 			<select ng-show = "docs.showDocEditForm" ng-model = "docs.selectedContr.id" ng-change = "docs.updateContr()">
-				<option ng-repeat = "contr in docs.contrList" ng-value = "{{contr.id}}">NIP: {{contr.regNumber}} | Nazwa: {{contr.name}} | Adres: {{contr.address}}</option>
+				<option ng-repeat = "contr in docs.contrList | orderBy : 'regNumber' : false" ng-value = "{{contr.id}}">NIP: {{contr.regNumber}} | Nazwa: {{contr.name}} | Adres: {{contr.address}}</option>
 			</select>
 			<br>
 			<label>Nazwa:</label>
@@ -56,14 +55,14 @@
 			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.status" placeholder = "Status obiegu">
 			<br>
 			<label>Przekazano do:</label>
-			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.user" placeholder = "Przekazano do">
+			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.doc.usern" placeholder = "Przekazano do">
 			<br>
 			<button ng-show = "docs.showDocEditForm && docs.authService.session.canEdit == 'true'" class = "w3-btn w3-green w3-ripple" ng-disabled = "docs.error" ng-click = "docs.saveDoc()">&#10004; Zapisz</button>
 			<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Anuluj</button>
 			<h3>Podsumowanie dokumentu:</h3>
 			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
-				<tr ng-repeat = "s in docs.sumList">
+				<tr ng-repeat = "s in docs.sumList | orderBy : 'taxDescr' : false">
 					<td>{{s.taxDescr}}</td>
 					<td class = "w3-right-align">{{s.price | number : 2}}</td>
 					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
@@ -113,9 +112,9 @@
 						<span ng-show = "docs.sorting.displaySortType('status') == 'down'">&#9660</span>
 					</th>
 					<th>
-						<a href = "#" ng-click = "docs.sorting.changeSorting('user')">Użytkownik</a>
-						<span ng-show = "docs.sorting.displaySortType('user') == 'up'">&#9650</span>
-						<span ng-show = "docs.sorting.displaySortType('user') == 'down'">&#9660</span>
+						<a href = "#" ng-click = "docs.sorting.changeSorting('usern')">Użytkownik</a>
+						<span ng-show = "docs.sorting.displaySortType('usern') == 'up'">&#9650</span>
+						<span ng-show = "docs.sorting.displaySortType('usern') == 'down'">&#9660</span>
 					</th>
 					<th>Edycja</th><th>Szczegóły</th><th>Pozycje faktury</th><th>Załączniki</th><th>Usunięcie</th><th>Szczegóły obiegu</th>
 				</tr>
@@ -139,7 +138,7 @@
 					<input type = "text" ng-model = "docs.docFilter.status">
 				</td>
 				<td>
-					<input type = "text" ng-model = "docs.docFilter.user">
+					<input type = "text" ng-model = "docs.docFilter.usern">
 				</td>
 			</tr>
 			<tr ng-repeat = "d in docs.docList | orderBy : docs.sorting.sortType : docs.sorting.sortReverse | filter : docs.docFilter">
@@ -150,7 +149,7 @@
 				<td>{{d.sellersRegNumber}}</td>
 				<td class = "w3-right-align">{{d.gross | number : 2}}</td>
 				<td>{{d.status}}</td>
-				<td>{{d.user}}</td>
+				<td>{{d.usern}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "d.status != 'nowy'" ng-click = "docs.editDoc(d.id)">&#9998; Edytuj</button></td>
 				<td><button class = "w3-btn w3-ripple" ng-click = "docs.displayDocDetails(d.id)">Wyświetl</button></td>
 				<td><button class = "w3-btn w3-ripple" ng-click = "docs.getItemsByDocId(d.id)">Pozycje faktury</button></td>
@@ -164,7 +163,6 @@
 <!-- ==================================================================== DOCITEM ==================================================================== -->
 	<div ng-show = "docs.showDocItems">
 		<h3>Pozycje faktury:</h3>
-		<h6>{{docs.responseMsg}}</h6>
 		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showItemEditForm" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editItem('new')">&#9998; Nowy</button>
 		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
 		<form name = "itemForm" ng-show = "docs.showItemEditForm || docs.showItemDetails">
@@ -179,7 +177,7 @@
 			<br>
 			<label>Jednostka miary:</label>
 			<select ng-show = "docs.showItemEditForm" ng-model = "docs.selectedUT.id" ng-change = "docs.updateUT()">
-				<option ng-repeat = "ut in docs.utList" ng-value = "{{ut.id}}">{{ut.description}}</option>
+				<option ng-repeat = "ut in docs.utList | orderBy : 'description' : false" ng-value = "{{ut.id}}">{{ut.description}}</option>
 			</select>
 			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.item.unitType" placeholder = "Jednostka miary" required>
 			<br>
@@ -194,7 +192,7 @@
 			<br>
 			<label>Stawka podatku:</label>
 			<select ng-show = "docs.showItemEditForm" ng-model = "docs.selectedTR.id" ng-change = "docs.updateTR()">
-				<option ng-repeat = "tr in docs.trList" ng-value = "{{tr.id}}">{{tr.description}}</option>
+				<option ng-repeat = "tr in docs.trList | orderBy : 'description' : false" ng-value = "{{tr.id}}">{{tr.description}}</option>
 			</select>
 			<input class = "w3-input w3-border" type = "text" ng-disabled = "true" ng-model = "docs.item.taxDescr" placeholder = "stawka podatku">
 			<br>
@@ -205,7 +203,7 @@
 		</form>
 		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 			<tr><th>Materiał/usługa</th><th>Ilość</th><th>Jednostka</th><th>Cena jednostkowa netto</th><th>Upust</th><th>Wartość netto</th><th>Stawka podatku</th><th>Edycja</th><th>Szczegóły</th><th>Usunięcie</th></tr>
-			<tr ng-repeat = "i in docs.itemList">
+			<tr ng-repeat = "i in docs.itemList | orderBy : 'description' : false">
 				<td>{{i.description}}</td>
 				<td class = "w3-right-align">{{i.quantity | number : 6}}</td>
 				<td>{{i.unitType}}</td>
@@ -223,7 +221,7 @@
 			<h3>Podsumowanie dokumentu:</h3>
 			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
-				<tr ng-repeat = "s in docs.sumList">
+				<tr ng-repeat = "s in docs.sumList | orderBy : 'taxDescr' : false">
 					<td>{{s.taxDescr}}</td>
 					<td class = "w3-right-align">{{s.price | number : 2}}</td>
 					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
@@ -235,7 +233,6 @@
 <!-- ==================================================================== ATTACHMENT ==================================================================== -->
 	<div ng-show = "docs.showDocAttachments">
 		<h3>Załączniki do faktury:</h3>
-		<h6>{{docs.responseMsg}}</h6>
 		<button class = "w3-btn w3-green w3-ripple" ng-show = "docs.authService.session.canEdit == 'true' && !docs.showAttachEditForm" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editAttach('new')">&#9998; Nowy</button>
 		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
 		<form name = "attachForm" ng-show = "docs.showAttachEditForm || docs.showAttachDetails">
@@ -265,7 +262,7 @@
 		</form>
 		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 			<tr><th>Nazwa pliku</th><th>Opis</th><th>Edycja</th><th>Szczegóły</th><th>Usunięcie</th></tr>
-			<tr ng-repeat = "a in docs.attachList">
+			<tr ng-repeat = "a in docs.attachList | orderBy : 'fileName' : false">
 				<td>{{a.fileName}}</td>
 				<td>{{a.description}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "docs.authService.session.canEdit == 'true'" ng-disabled = "docs.doc.status != 'nowy'" ng-click = "docs.editAttach(a.id)">&#9998; Edytuj</button></td>
@@ -279,7 +276,7 @@
 			<h3>Podsumowanie dokumentu:</h3>
 			<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 				<tr><th>Stawka podatku</th><th>Suma netto</th><th>Suma podatku</th><th>Suma brutto</th></tr>
-				<tr ng-repeat = "s in docs.sumList">
+				<tr ng-repeat = "s in docs.sumList | orderBy : 'taxDescr' : false">
 					<td>{{s.taxDescr}}</td>
 					<td class = "w3-right-align">{{s.price | number : 2}}</td>
 					<td class = "w3-right-align">{{s.taxValue | number : 2}}</td>
@@ -292,13 +289,12 @@
 
 	<div ng-show = "docs.showStages == true">
 		<h3>Szczegóły obiegu dokumentu:</h3>
-		<h6>{{docs.responseMsg}}</h6>
 		<button class = "w3-btn w3-green w3-ripple" ng-click = "docs.backToDocuments()">Powrót do dokumentów</button>
 		<form name = "stageForm" ng-show = "docs.showStageEditForm">
 			<div ng-show = "docs.action == 'send' || docs.action == 'reject'">
 				<label>Przekazać do:</label>
 				<select class = "w3-select" ng-model = "docs.nextStageUser">
-					<option ng-repeat = "u in docs.userList" value = "{{u.name}}">{{u.name}}</option>
+					<option ng-repeat = "u in docs.userList | orderBy : 'name' : false" value = "{{u.name}}">{{u.name}}</option>
 				</select>
 				<br>
 			</div>
@@ -312,9 +308,9 @@
 
 		<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 			<tr><th>Data</th><th>Użytkownik</th><th>Status wejściowy dokumentu</th><th>Działanie</th><th>Uwagi</th></tr>
-			<tr ng-repeat = "s in docs.stageList">
+			<tr ng-repeat = "s in docs.stageList | orderBy : 'date' : false">
 				<td>{{s.date | date : "y-MM-dd"}}</td>
-				<td>{{s.user}}</td>
+				<td>{{s.usern}}</td>
 				<td>{{s.status}}</td>
 				<td>{{s.action}}</td>
 				<td>{{s.comments}}</td>

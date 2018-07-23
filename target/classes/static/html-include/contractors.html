@@ -1,6 +1,5 @@
 <meta charset = "UTF-8">
 <div ng-controller = "ContrsCtrl as contrs">
-	<h6>{{contrs.responseMsg}}</h6>
 	<button class = "w3-btn w3-green w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-disabled = "contrs.showContrEditForm" ng-click = "contrs.editContr('new')">&#9998; Nowy</button>
 	<form name = "ContrForm" ng-show = "contrs.showContrEditForm">
 		<h3 ng-show = "contrs.showContrEditForm && contrs.editNew">Nowy kontrahent</h3>

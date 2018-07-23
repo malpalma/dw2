@@ -12,7 +12,7 @@ dwApp.controller("mainCtrl", ["authService", "$window", function(authService, $w
 		}
 	}).
 	catch(function(response) {
-		console.log("Wystąpił błąd przy próbie pobrania sesji");
+		alert("Wystąpił błąd przy próbie pobrania sesji");
 	});
 	
 	lS.login = function() {

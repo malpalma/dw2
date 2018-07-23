@@ -1,6 +1,5 @@
 <meta charset = "UTF-8">
 <div ng-controller = "UsersCtrl as users">
-	<h6>{{users.responseMsg}}</h6>
 	<button class = "w3-btn w3-green w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-disabled = "users.showEditForm" ng-click = "users.editUser('new')">&#9998; Nowy</button>
 	<form name = "userForm" ng-show = "users.showEditForm">
 		<h3 ng-show = "users.showEditForm && users.editNew">Nowy użytkownik</h3>
@@ -38,12 +37,12 @@
 	</form>
 	<table class = "w3-table w3-bordered w3-striped w3-small w3-responsive">
 		<tr><th>Nazwa</th><th>Aktywny?</th><th>Może edytować?</th><th>Może akceptować?</th><th>Administrator?</th><th>Zmiana hasła</th><th>Edycja</th><th>Usunięcie</th></tr>
-		<tr ng-repeat = "u in users.userList">
+		<tr ng-repeat = "u in users.userList | orderBy : 'name' : false">
 			<td>{{u.name}}</td>
-			<td>{{u.active}}</td>
-			<td>{{u.canEdit}}</td>
-			<td>{{u.canAccept}}</td>
-			<td>{{u.isAdmin}}</td>
+			<td class = "w3-center"><span ng-show = "u.active">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.canEdit">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.canAccept">&#10004</span></td>
+			<td class = "w3-center"><span ng-show = "u.isAdmin">&#10004</span></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.name == u.name" ng-click = "users.changePassword(u.id)">&#9998; Zmień hasło</button></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.editUser(u.id)">&#9998; Edytuj</button></td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "users.authService.session.isAdmin == 'true'" ng-click = "users.deleteUser(u.id)">Usuń</button></td>

@@ -201,7 +201,9 @@ dwApp.factory("reqGen", ["$http", function($http) {
 
 	reqGen.getResponseMsg = function(resp) {
 		if(resp.data != undefined && resp.data.status != undefined) {
-			return "Wystąpił błąd: " + resp.data.status + "; " + resp.data.error + "; " + resp.data.message + "; " + resp.data.path + "; " + resp.data.timestamp;
+			return "Wystąpił błąd: \n" + 
+				resp.data.status + ", " + resp.data.error + ";\n" + 
+				"komunikat: " + resp.data.message;
 		} else {
 			return "Wystąpił błąd";
 		}

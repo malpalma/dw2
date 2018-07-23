@@ -21,7 +21,7 @@
 		<span class = "w3-right" ng-show = "main.authService.authenticated">Zalogowany</span>
 		<span class = "w3-right" ng-show = "!main.authService.authenticated">Niezalogowany</span>
 	</h2>
-
+	<h6 ng-show = "!main.authService.authenticated">(login: super, hasło: superPwd)</h6>
 <div ng-switch = "menu">
 	<div ng-switch-when = "documents">
 		<div ng-include = "'html-include/documents.html'"></div>
