@@ -111,6 +111,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 		
@@ -141,20 +142,24 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			 				catch(function(response) {
 			 					lS.responseMsg = reqGen.getResponseMsg(response);
 				 				lS.error = true;
+				 				alert(lS.responseMsg);
 			 				})
 		 				}
 		 			}).
 		 			catch(function(response) {
 						lS.responseMsg = reqGen.getResponseMsg(response);
+						alert(lS.responseMsg);
 		 			})
 				}
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -170,6 +175,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		});
 	};
 	
@@ -199,6 +205,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -210,6 +217,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -241,6 +249,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			catch(function(response) {
 				lS.resetSelectedContr();
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -260,6 +269,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			catch(function(response) {
 				lS.resetSelectedPM();
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -313,11 +323,13 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}).
 		catch(function(response) {
 			lS.doc.status = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -347,6 +359,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			 				catch(function(response) {
 			 					lS.responseMsg = reqGen.getResponseMsg(response);
 			 					lS.error = true;
+			 					alert(lS.responseMsg);
 			 				})
 		 				}
 		 				if(lS.item.taxDescr != undefined) {
@@ -356,20 +369,24 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		 					catch(function(response) {
 		 						lS.responseMsg = reqGen.getResponseMsg(response);
 		 						lS.error = true;
+		 						alert(lS.responseMsg);
 		 					})
 		 				}
 		 			}).
 		 			catch(function(response) {
 						lS.responseMsg = reqGen.getResponseMsg(response);
+						alert(lS.responseMsg);
 		 			})
 				}
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 
@@ -385,6 +402,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 
@@ -395,6 +413,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -406,6 +425,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	}
@@ -446,6 +466,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			catch(function(response) {
 				lS.resetSelectedUT();
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -464,6 +485,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			catch(function(response) {
 				lS.resetSelectedTR();
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -507,6 +529,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 		
@@ -536,11 +559,13 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}).
 		catch(function(response) {
 			lS.doc.status = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -562,6 +587,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -578,6 +604,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -588,6 +615,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -599,6 +627,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -655,14 +684,17 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 				}).
 				catch(function(response) {
 					lS.responseMsg = reqGen.getResponseMsg(response);
+					alert(lS.responseMsg);
 				})
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 
@@ -677,6 +709,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -699,6 +732,7 @@ dwApp.controller("DocsCtrl", ["reqGen", "authService", "fileReader", "$scope", "
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	

@@ -36,6 +36,7 @@ dwApp.controller("UsersCtrl", ["reqGen", "authService", function(reqGen, authSer
 		catch(function(response) {
 			lS.userList = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -55,6 +56,7 @@ dwApp.controller("UsersCtrl", ["reqGen", "authService", function(reqGen, authSer
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -76,6 +78,7 @@ dwApp.controller("UsersCtrl", ["reqGen", "authService", function(reqGen, authSer
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -87,6 +90,7 @@ dwApp.controller("UsersCtrl", ["reqGen", "authService", function(reqGen, authSer
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -118,6 +122,7 @@ dwApp.controller("UsersCtrl", ["reqGen", "authService", function(reqGen, authSer
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	}
 	

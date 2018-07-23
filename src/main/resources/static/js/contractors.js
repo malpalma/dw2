@@ -27,6 +27,7 @@ dwApp.controller("ContrsCtrl", ["reqGen", "authService", "sorting", function(req
 		catch(function(response) {
 			lS.contrList = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -45,6 +46,7 @@ dwApp.controller("ContrsCtrl", ["reqGen", "authService", "sorting", function(req
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -66,6 +68,7 @@ dwApp.controller("ContrsCtrl", ["reqGen", "authService", "sorting", function(req
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -77,6 +80,7 @@ dwApp.controller("ContrsCtrl", ["reqGen", "authService", "sorting", function(req
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};

@@ -26,6 +26,7 @@ dwApp.controller("TRCtrl", ["reqGen", "authService", function(reqGen, authServic
 		catch(function(response) {
 			lS.trList = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -44,6 +45,7 @@ dwApp.controller("TRCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -65,6 +67,7 @@ dwApp.controller("TRCtrl", ["reqGen", "authService", function(reqGen, authServic
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -76,6 +79,7 @@ dwApp.controller("TRCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -128,6 +132,7 @@ dwApp.controller("PMCtrl", ["reqGen", "authService", function(reqGen, authServic
 		catch(function(response) {
 			lS.pmList = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		});
 	};
 	
@@ -146,6 +151,7 @@ dwApp.controller("PMCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -167,6 +173,7 @@ dwApp.controller("PMCtrl", ["reqGen", "authService", function(reqGen, authServic
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -178,6 +185,7 @@ dwApp.controller("PMCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -227,6 +235,7 @@ dwApp.controller("UTCtrl", ["reqGen", "authService", function(reqGen, authServic
 		catch(function(response) {
 			lS.utList = undefined;
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -245,6 +254,7 @@ dwApp.controller("UTCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};
@@ -266,6 +276,7 @@ dwApp.controller("UTCtrl", ["reqGen", "authService", function(reqGen, authServic
 		}).
 		catch(function(response) {
 			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
 		})
 	};
 	
@@ -277,6 +288,7 @@ dwApp.controller("UTCtrl", ["reqGen", "authService", function(reqGen, authServic
 			}).
 			catch(function(response) {
 				lS.responseMsg = reqGen.getResponseMsg(response);
+				alert(lS.responseMsg);
 			})
 		}
 	};

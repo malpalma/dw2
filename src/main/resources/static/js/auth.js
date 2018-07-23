@@ -19,28 +19,26 @@ authModule.factory("authService", ["$http", "$window", function($http, $window) 
 		var headers = authService.credentials.username ? {authorization : "Basic " + btoa(authService.credentials.username + ":" + authService.credentials.password)} : {};
 		$http.get("/authenticate", {headers : headers}).then(function(response) {
 			if(response.data.name != "null") {
-				console.log("authenticated");
 				authService.setSession(response.data);
 				authService.error = false;
 				authService.authenticated = true;
 				$window.location.href = "/";
 			} else {
-				console.log("not authenticated");
 				authService.error = true; 
 				authService.responseMsg = "Nie udało się zalogować";
+				alert(authService.responseMsg);
 			}
 		}).
 		catch(function(response) {
-			console.log("authentication error");
 			authService.error = true;
 			authService.responseMsg = "Wystąpił błąd przy próbie zalogowania";
+			alert(authService.responseMsg);
 		})
 	}
 	
 	authService.logout = function() {
 		authService.responseMsg = "";
 		$http.post("logout", {}).then(function() {
-			console.log("logged out");
 			$window.location.href = "/";
 			authService.authenticated = false;
 			authService.getSession().then(function(response) {
@@ -48,6 +46,7 @@ authModule.factory("authService", ["$http", "$window", function($http, $window) 
 			}).
 			catch(function(response) {
 				authService.responseMsg = "Błąd pobrania sesji po wylogowaniu";
+				alert(authService.responseMsg);
 			})
 		}).
 		catch(function(response) {
