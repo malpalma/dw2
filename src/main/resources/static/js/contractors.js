@@ -72,17 +72,26 @@ dwApp.controller("ContrsCtrl", ["reqGen", "authService", "sorting", function(req
 		})
 	};
 	
-	lS.deleteContr = function(id) {
-		if(confirm("Potwierdz usunięcie kontrahenta")) {
-			lS.responseMsg = "";
-			reqGen.deleteContrById(id).then(function(response) {
-				lS.getContrs();
-			}).
-			catch(function(response) {
-				lS.responseMsg = reqGen.getResponseMsg(response);
-				alert(lS.responseMsg);
-			})
-		}
+	lS.deleteContr = function(id, name, address, regNumber) {
+		lS.responseMsg = "";
+		var conf = undefined;
+		reqGen.existDocsByContractorData(name, address, regNumber).then(function(response) {
+			if(response.data == true) {
+				conf = confirm("Zarejestrowano dokumenty tego kontrahenta, czy na pewno usunąć? (dane na dokumentach pozostaną nie zmienione)");
+			} else {
+				conf = confirm("Potwierdz usunięcie kontrahenta");
+			}
+		}).then(function(response) {
+			if(conf) {
+				reqGen.deleteContrById(id).then(function(response) {
+					lS.getContrs();
+				})
+			}
+		}).
+		catch(function(response) {
+			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
+		})
 	};
 	
 	lS.cancelEditContr = function() {

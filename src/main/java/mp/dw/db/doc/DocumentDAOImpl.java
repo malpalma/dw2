@@ -33,4 +33,27 @@ public class DocumentDAOImpl extends BaseDAOImpl<Document, Long> implements Docu
 		}
 	}
 	
+	public boolean existByContractorData(String name, String address, String regNumber) {
+		Query query = em.createQuery("select id from Document d where sellersName = :sellersName and "
+				+ "sellersAddress = :sellersAddress and sellersRegNumber = :sellersRegNumber");
+		query.setParameter("sellersName", name);
+		query.setParameter("sellersAddress", address);
+		query.setParameter("sellersRegNumber", regNumber);
+		int result = query.getResultList().size();
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean existByPM(String descr) {
+		Query query = em.createQuery("select id from Document d where paymentMethod = :paymentMethod");
+		query.setParameter("paymentMethod", descr);
+		int result = query.getResultList().size();
+		if(result > 0)
+			return true;
+		else
+			return false;
+	}
 }

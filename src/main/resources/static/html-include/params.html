@@ -27,7 +27,7 @@
 				<td>{{tr.description}}</td>
 				<td class = "w3-right-align">{{tr.value | number : 2}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-click = "trs.editTaxRate(tr.id)">&#9998; Edytuj</button></td>
-				<td><button class = "w3-btn w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-click = "trs.deleteTaxRate(tr.id)">Usuń</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "trs.authService.session.canEdit == 'true'" ng-click = "trs.deleteTaxRate(tr.id, tr.description, tr.value)">Usuń</button></td>
 			</tr>
 		</table>
 	</div>
@@ -52,7 +52,7 @@
 				<td>{{pm.description}}</td>
 				<td class = "w3-right-align">{{pm.value}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-click = "pms.editPaymentMethod(pm.id)">&#9998; Edytuj</button></td>
-				<td><button class = "w3-btn w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-click = "pms.deletePaymentMethod(pm.id)">Usuń</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "pms.authService.session.canEdit == 'true'" ng-click = "pms.deletePaymentMethod(pm.id, pm.description)">Usuń</button></td>
 			</tr>
 		</table>
 	</div>
@@ -77,7 +77,7 @@
 				<td>{{ut.code}}</td>
 				<td>{{ut.description}}</td>
 				<td><button class = "w3-btn w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-click = "uts.editUnitType(ut.id)">&#9998; Edytuj</button></td>
-				<td><button class = "w3-btn w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-click = "uts.deleteUnitType(ut.id)">Usuń</button></td>
+				<td><button class = "w3-btn w3-ripple" ng-show = "uts.authService.session.canEdit == 'true'" ng-click = "uts.deleteUnitType(ut.id, ut.description)">Usuń</button></td>
 			</tr>
 		</table>
 	</div>

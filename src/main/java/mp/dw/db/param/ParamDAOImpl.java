@@ -2,6 +2,7 @@ package mp.dw.db.param;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -21,13 +22,11 @@ public class ParamDAOImpl extends BaseDAOImpl<Param, Long> implements ParamDAO {
 		Query query = em.createQuery("select p from Param p where type = :type and description = :descr");
 		query.setParameter("type", type);
 		query.setParameter("descr", descr);
-// generates exception if no result:
-//		return (Param) query.getSingleResult();
-		List<Param> params = query.getResultList();
-		if(params.size() != 1) {
+		// generates exception if no result:
+		try {
+			return (Param) query.getSingleResult();
+		} catch (NoResultException e) {
 			return null;
-		} else {
-			return params.get(0);
 		}
 	}
 }

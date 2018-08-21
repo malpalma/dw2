@@ -62,6 +62,8 @@ public class DWService {
 	
 	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
+	public DWService() {}
+	
 //	============================== DOCUMENT ==============================
 
 	public List<Document> getAllDocuments() {
@@ -94,6 +96,14 @@ public class DWService {
 		docDao.deleteById(id);
 	}
 	
+	public boolean existDocsByContractorData(String name, String address, String regNumber) {
+		return docDao.existByContractorData(name, address, regNumber);
+	}
+
+	public boolean existDocsByPM(String descr) {
+		return docDao.existByPM(descr);
+	}
+
 //	============================== DOCSTAGE ==============================
 	
 	public List<DocStage> getStagesByDocId(Long docId) {
@@ -209,7 +219,15 @@ public class DWService {
 		doc.setGross(grossSum);
 		docDao.update(doc);
 	}
-	
+
+	public boolean existItemsByTR(String descr, Float value) {
+		return docItemDao.existByTR(descr, value);
+	}
+
+	public boolean existItemsByUT(String descr) {
+		return docItemDao.existByUT(descr);
+	}
+
 //	============================== SUM ==============================
 	
 	public List<DocSum> getSumsByDocId(Long docId) {
@@ -299,7 +317,6 @@ public class DWService {
 	}
 	
 	public UserE getUserByName(String name) {
-		System.out.println("getUserByName");
 		return userDao.getByName(name);
 	}
 	
@@ -329,12 +346,14 @@ public class DWService {
 
 //	============================== ATTACHMENT ==============================
 
+	// must be transactional to get lob fields
 	@Transactional
 	public List<Attachment> getAttachmentsByDocId(Long docId) {
 		Document doc = docDao.getById(docId);
 		return (List<Attachment>) attachDao.getByDoc(doc);
 	}
 
+	// must be transactional to get lob fields
 	@Transactional
 	public Attachment getAttachmentById(Long id) {
 		return attachDao.getById(id);

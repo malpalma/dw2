@@ -1,5 +1,6 @@
 package mp.dw.db.user;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,10 @@ public class UserDAOImpl extends BaseDAOImpl<UserE, Long> implements UserDAO {
 	public UserE getByName(String name) {
 		Query query = em.createQuery("select u from UserE u where name = :name");
 		query.setParameter("name", name);
-		return (UserE) query.getSingleResult();
+		try {
+			return (UserE) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

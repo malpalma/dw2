@@ -37,6 +37,10 @@ public class UserE {
 	public UserE(String name, String pass) {
 		this.name = name;
 		this.pass = pass;
+		this.active = true;
+		this.canEdit = false;
+		this.canAccept = false;
+		this.isAdmin = false;
 	}
 	
 	public Long getId() {

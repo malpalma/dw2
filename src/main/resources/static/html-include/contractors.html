@@ -65,7 +65,7 @@
 			<td>{{c.regNumber}}</td>
 			<td>{{c.contactDetails}}</td>
 			<td><button class = "w3-btn w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-click = "contrs.editContr(c.id)">&#9998; Edytuj</button></td>
-			<td><button class = "w3-btn w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-click = "contrs.deleteContr(c.id)">Usuń</button></td>
+			<td><button class = "w3-btn w3-ripple" ng-show = "contrs.authService.session.canEdit == 'true'" ng-click = "contrs.deleteContr(c.id, c.name, c.address, c.regNumber)">Usuń</button></td>
 		</tr>
 	</table>
 </div>

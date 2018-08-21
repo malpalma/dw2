@@ -71,17 +71,24 @@ dwApp.controller("TRCtrl", ["reqGen", "authService", function(reqGen, authServic
 		})
 	};
 	
-	lS.deleteTaxRate = function(id) {
-		if(confirm("Potwierdz usunięcie stawki podatku")) {
-			lS.responseMsg = "";
+	lS.deleteTaxRate = function(id, descr, value) {
+		lS.responseMsg = "";
+		var conf = undefined;
+		reqGen.existItemsByTR(descr, value).then(function(response) {
+			if(response.data == true) {
+				conf = confirm("Zarejestrowano pozycje dokumentów z tą stawką, czy na pewno usunąć? (dane na dokumentach pozostaną nie zmienione)");
+			} else {
+				conf = confirm("Potwierdz usunięcie stawki podatku") 
+			}
+		}).then(function(response) {
 			reqGen.deleteParamById(id).then(function(response) {
 				lS.getTaxRates();
-			}).
-			catch(function(response) {
-				lS.responseMsg = reqGen.getResponseMsg(response);
-				alert(lS.responseMsg);
 			})
-		}
+		}).
+		catch(function(response) {
+			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
+		})
 	};
 	
 	lS.cancelEditTaxRate = function() {
@@ -177,17 +184,26 @@ dwApp.controller("PMCtrl", ["reqGen", "authService", function(reqGen, authServic
 		})
 	};
 	
-	lS.deletePaymentMethod = function(id) {
-		if(confirm("Potwierdz usunięcie metody płatności")) {
-			lS.responseMsg = "";
-			reqGen.deleteParamById(id).then(function(response) {
-				lS.getPaymentMethods();
-			}).
-			catch(function(response) {
-				lS.responseMsg = reqGen.getResponseMsg(response);
-				alert(lS.responseMsg);
-			})
-		}
+	lS.deletePaymentMethod = function(id, descr) {
+		lS.responseMsg = "";
+		var conf = undefined;
+		reqGen.existDocsByPM(descr).then(function(response) {
+			if(response.data == true) {
+				conf = confirm("Zarejestrowano dokumenty z tą metodą płatności, czy na pewno usunąć? (dane na dokumentach pozostaną nie zmienione)");
+			} else {
+				conf = confirm("Potwierdz usunięcie metody płatności") 
+			}
+		}).
+		catch(function(response) {
+			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
+		}).then(function(response) {
+			if(conf) {
+				reqGen.deleteParamById(id).then(function(response) {
+					lS.getPaymentMethods();
+				})
+			}
+		})
 	};
 
 	lS.cancelEditPaymentMethod = function() {
@@ -280,17 +296,24 @@ dwApp.controller("UTCtrl", ["reqGen", "authService", function(reqGen, authServic
 		})
 	};
 	
-	lS.deleteUnitType = function(id) {
-		if(confirm("Potwierdz usunięcie jednostki miary")) {
-			lS.responseMsg = "";
+	lS.deleteUnitType = function(id, descr) {
+		lS.responseMsg = "";
+		var conf = undefined;
+		reqGen.existItemsByUT(descr).then(function(response) {
+			if(response.data == true) {
+				conf = confirm("Zarejestrowano pozycje dokumentów z tą jednostką, czy na pewno usunąć? (dane na dokumentach pozostaną nie zmienione)");
+			} else {
+				conf = confirm("Potwierdz usunięcie jednostki miary") 
+			}
+		}).then(function(response) {
 			reqGen.deleteParamById(id).then(function(response) {
 				lS.getUnitTypes();
-			}).
-			catch(function(response) {
-				lS.responseMsg = reqGen.getResponseMsg(response);
-				alert(lS.responseMsg);
 			})
-		}
+		}).
+		catch(function(response) {
+			lS.responseMsg = reqGen.getResponseMsg(response);
+			alert(lS.responseMsg);
+		})
 	};
 
 	lS.cancelEditUnitType = function() {

@@ -29,4 +29,25 @@ public class DocItemDAOImpl extends BaseDAOImpl<DocItem, Long> implements DocIte
 			delete(item);
 		}
 	}
+
+	public boolean existByTR(String descr, Float value) {
+		Query query = em.createQuery("select id from DocItem i where taxDescr = :taxDescr and taxRate = :taxRate");
+		query.setParameter("taxDescr", descr);
+		query.setParameter("taxRate", value);
+		int result = query.getResultList().size();
+		if(result > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean existByUT(String descr) {
+		Query query = em.createQuery("select id from DocItem i where unitType = :unitType");
+		query.setParameter("unitType", descr);
+		int result = query.getResultList().size();
+		if(result > 0)
+			return true;
+		else
+			return false;
+	}
 }

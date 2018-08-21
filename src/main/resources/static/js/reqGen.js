@@ -31,6 +31,16 @@ dwApp.factory("reqGen", ["$http", function($http) {
 		return $http.delete("/deleteDocument/" + id, config);
 	};
 	
+	reqGen.existDocsByContractorData = function(name, address, regNumber) {
+		var config = {params: {name: name, address: address, regNumber: regNumber}, responseType: "text"};
+		return $http.get("/existDocsByContractorData", config);
+	}
+	
+	reqGen.existDocsByPM = function(descr) {
+		var config = {params: {descr: descr}, responseType: "text"};
+		return $http.get("/existDocsByPM", config);
+	}
+
 	
 	
 	reqGen.getStagesByDocId = function(docId) {
@@ -73,6 +83,18 @@ dwApp.factory("reqGen", ["$http", function($http) {
 		var config = {params: {}, responseType: "text"};
 		return $http.delete("/deleteItem/" + id, config);
 	};
+
+	reqGen.existItemsByTR = function(descr, value) {
+		var config = {params: {descr: descr, value: value}, responseType: "text"};
+		return $http.get("/existItemsByTR", config);
+	}
+
+	reqGen.existItemsByUT = function(descr) {
+		var config = {params: {descr: descr}, responseType: "text"};
+		return $http.get("/existItemsByUT", config);
+	}
+
+
 	
 	reqGen.getSumsByDocId = function(docId) {
 		var config = {params: {}, responseType: "json"};

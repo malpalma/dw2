@@ -169,6 +169,43 @@ public class DWRestController {
 		}
 	}
 
+//	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "/existDocsByContractorData")
+	public boolean existDocsByContractorData(@RequestParam(name = "name") String name, @RequestParam(name = "address") String address,
+			@RequestParam(name = "regNumber") String regNumber, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			resp.setCharacterEncoding("UTF-8");
+			return dwService.existDocsByContractorData(name, address, regNumber);
+		} catch(Exception e) {
+			logger.error("exception in: GET Mapping, /existDocsByContractorData; " + e.getMessage());
+			try {
+				resp.sendError(500, e.getMessage());
+				return false;
+			} catch(Exception e1) {
+				logger.error("exception in: GET Mapping, /existDocsByContractorData; " + e1.getMessage());
+				return false;
+			}
+		}
+	}
+
+//	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "/existDocsByPM")
+	public boolean existDocsByPM(@RequestParam(name = "descr") String descr, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			resp.setCharacterEncoding("UTF-8");
+			return dwService.existDocsByPM(descr);
+		} catch(Exception e) {
+			logger.error("exception in: GET Mapping, /existDocsByPM; " + e.getMessage());
+			try {
+				resp.sendError(500, e.getMessage());
+				return false;
+			} catch(Exception e1) {
+				logger.error("exception in: GET Mapping, /existDocsByPM; " + e1.getMessage());
+				return false;
+			}
+		}
+	}
+
 //	============================== DOCSTAGE ==============================
 	
 //	@PreAuthorize("hasAuthority('USER')")
@@ -293,7 +330,45 @@ public class DWRestController {
 			}
 		}
 	}
-	
+
+//	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "/existItemsByTR")
+	public boolean existItemsByTR(@RequestParam(name = "descr") String descr, @RequestParam(name = "value") Float value,
+			HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			resp.setCharacterEncoding("UTF-8");
+			return dwService.existItemsByTR(descr, value);
+		} catch(Exception e) {
+			logger.error("exception in: GET Mapping, /existItemsByTR; " + e.getMessage());
+			try {
+				resp.sendError(500, e.getMessage());
+				return false;
+			} catch(Exception e1) {
+				logger.error("exception in: GET Mapping, /existItemsByTR; " + e1.getMessage());
+				return false;
+			}
+		}
+	}
+
+//	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(value = "/existItemsByUT")
+	public boolean existItemsByUT(@RequestParam(name = "descr") String descr,
+			HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			resp.setCharacterEncoding("UTF-8");
+			return dwService.existItemsByUT(descr);
+		} catch(Exception e) {
+			logger.error("exception in: GET Mapping, /existItemsByUT; " + e.getMessage());
+			try {
+				resp.sendError(500, e.getMessage());
+				return false;
+			} catch(Exception e1) {
+				logger.error("exception in: GET Mapping, /existItemsByUT; " + e1.getMessage());
+				return false;
+			}
+		}
+	}
+
 //	============================== SUM ==============================
 
 //	@PreAuthorize("hasAuthority('USER')")

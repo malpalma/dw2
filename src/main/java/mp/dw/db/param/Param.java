@@ -30,6 +30,18 @@ public class Param {
 	
 	
 	public Param() {}
+	
+	public Param(String type, String description, Float value) {
+		this.type = type;
+		this.description = description;
+		this.value = value;
+	}
+
+	public Param(String type, String code, String description) {
+		this.type = type;
+		this.code = code;
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
