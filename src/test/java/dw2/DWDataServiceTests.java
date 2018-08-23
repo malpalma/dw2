@@ -17,11 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import mp.dw.DWApp;
-import mp.dw.DWMainController;
-import mp.dw.DWRestController;
-import mp.dw.DWSecurityConfig;
 import mp.dw.DWService;
-import mp.dw.DWUserSession;
 import mp.dw.db.contr.ContractorDAOImpl;
 import mp.dw.db.doc.AttachmentDAOImpl;
 import mp.dw.db.doc.DocItemDAOImpl;
@@ -34,23 +30,22 @@ import mp.dw.db.user.UserDAOImpl;
 import mp.dw.db.user.UserE;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SpringBootTest(properties = {"spring.datasource.url=jdbc:postgresql://localhost:5432/db_example?useUnicode=true&characterEncoding=UTF-8&serverTimezone=CET",
 								"spring.datasource.username=springuser",
-								"spring.datasource.password=spr1ngVser"})
-@ContextConfiguration(classes = {DWApp.class, DWService.class, 
-									DocumentDAOImpl.class, DocItemDAOImpl.class, DocSumDAOImpl.class, DocStageDAOImpl.class, AttachmentDAOImpl.class,
+								"spring.datasource.password=spr1ngVser"},
+				classes = DWApp.class)
+@ContextConfiguration(classes = {DWService.class, DocumentDAOImpl.class, DocItemDAOImpl.class, DocSumDAOImpl.class, DocStageDAOImpl.class, AttachmentDAOImpl.class,
 									ContractorDAOImpl.class, ParamDAOImpl.class, UserDAOImpl.class})
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 //@Transactional(propagation = Propagation.NOT_SUPPORTED)
-public class DWIntegrationTests {
+public class DWDataServiceTests {
 
 	//user for testing
 	private final String testUserName = "user999";
 	private final String testUserPass = "user999";
 	
-	//params
+	//params for testing
 	private final String[] testUnitType = {"ut", "testUnitType", "test unit type"}; 
 	private final String[] testPaymentMethod = {"pm", "przelew 99 dni"};
 	private final Float testPaymentMethodValue = 99f;
@@ -61,7 +56,7 @@ public class DWIntegrationTests {
 	private DWService dwService;
 	
 	@Test
-	public void testUserConfiguration() {
+	public void testNewUserConfiguration() {
 		//add new user
 		UserE testUser = new UserE(testUserName, testUserPass);
 		dwService.saveUser(testUser);
@@ -103,7 +98,7 @@ public class DWIntegrationTests {
 	}
 	
 	@Test
-	public void testParamConfiguration() {
+	public void testNewParamConfiguration() {
 		//add new unit type
 		Param testUT = new Param(testUnitType[0], testUnitType[1], testUnitType[2]);
 		dwService.saveParam(testUT);
@@ -126,7 +121,7 @@ public class DWIntegrationTests {
 		Param resultDeletedPM = dwService.getParamByTypeAndDescr(testPaymentMethod[0], testPaymentMethod[1]);
 		assertNull(resultDeletedPM);
 	}
-	
+
 	@After
 	public void deleteTestData() {
 		UserE testUser = dwService.getUserByName(testUserName);
